@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  </head>
+  <body>
+    <a [routerLink]="['/']">Bucket List</a><span>|</span>
+    <a [routerLink]="['/dashboard']">Home</a><span>|</span>
+    <a href="/logout">Logout</a>
+    <h1>{{user.name}}'s Bucket List</h1>
+    <form *ngFor="let item of user.list">
+      <input type="checkbox" disabled="disabled" name={{item.title}}> 
+      {{item.title}} | {{item.description}}
+    </form>
+    <p></p>
+  </body>
+</html>

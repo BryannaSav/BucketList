@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  </head>
+  <body> 
+    <a [routerLink]="['/showone', curuser.name]">Bucket List</a><span>|</span>
+    <a [routerLink]="['/dashboard']">Home</a><span>|</span>
+    <a href="/logout">Logout</a>
+
+    <h1 *ngIf="curuser!==undefined" >Welcome {{curuser.name}}</h1>
+
+    <form (submit)="create_item(); itemForm.resetForm()" #itemForm="ngForm">
+      <label name="title">*Title: </label>
+      <input type="text" name="title" 
+      required 
+      minlength="5" 
+      maxlength="50" 
+      [(ngModel)]="item.title" 
+      #title="ngModel">
+      <span style="color:red" *ngIf="!title.valid && title.dirty">Title is required</span>
+  
+      <label name="description">*Descripton: </label>
+      <input type="text" name="description" 
+      required  
+      minlength="10" 
+      maxlength="200" 
+      [(ngModel)]="item.description" 
+      #description="ngModel">
+      <span style="color:red" *ngIf="!description.valid && description.dirty">Description is required</span>
+      
+      <select name="friend">
+        <option *ngFor="let user of users">
+          <span *ngIf="user.name!==curuser.name">{{user.name}}</span>
+        </option>
+      </select>
+      <input type="submit" value="submit"  [disabled]="!itemForm.valid"> 
+    </form> 
+
+    <h4>Before I die I want to:</h4>
+    <p>*Refresh page to see newly added list items</p>
+    <form (submit)="update()">
+      <div *ngFor="let thing of curuser.list">
+        <input type="checkbox" name={{thing.title}}>
+          {{thing.title}} | {{thing.description}} | {{curuser.createdAt}}
+      </div>
+      <input type="submit" value="update">
+    </form>
+
+    <h4>List of other Users(Click to view profile)</h4>
+    <div *ngFor="let user of users">
+      <a *ngIf="user.name!==curuser.name" [routerLink]="['/showone', user.name]">{{user.name}}</a>
+    </div>
+  </body>
+</html>
